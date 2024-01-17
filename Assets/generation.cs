@@ -24,6 +24,8 @@ public class generation : MonoBehaviour
 
     public List<float> gen_poss = new List<float>();
 
+    string LanguageText;
+
     void Start()
     {
         Joueur = GameObject.Find("Player").GetComponent<joueur>();
@@ -39,6 +41,11 @@ public class generation : MonoBehaviour
         txt.text = "NULL";
 
         InvokeRepeating("DestroyGen", 0.0f, 2.0f);
+
+        if (PlayerPrefs.GetInt("Langue") == 0) //Anglais
+            LanguageText = "coins";
+        else
+            LanguageText = "pièces";
     }
     void Update()
     {
@@ -53,7 +60,7 @@ public class generation : MonoBehaviour
         //Distance & affichage
         //       +=         (valeur) simplification en 0.0
         distance += Time.deltaTime * SPEED / 5;
-        txt.text = (Mathf.Round(distance * 10) / 10) + "m\n" + Joueur.gold + " gold";
+        txt.text = (Mathf.Round(distance * 10) / 10) + "m\n" + Joueur.gold + " " + LanguageText;
 
         GameOverTest();
 
