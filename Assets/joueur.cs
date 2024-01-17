@@ -113,9 +113,9 @@ public class joueur : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1) || Input.touchCount > 0)
         {
 
-            if (velocityY > 400)
+            if (velocityY > 200)
                 Jump();
-            if (velocityY < -400)
+            if (velocityY < -200)
             {
                 if (transform.position.y > 2)
                     rb.velocity -= new Vector3(0, 1.0f, 0);
