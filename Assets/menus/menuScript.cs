@@ -29,6 +29,7 @@ public class menuScript : MonoBehaviour
             Textexts[3].text = "Settings";
             Textexts[4].text = "Français";
             Textexts[5].text = "Music";
+            Textexts[6].text = "Sounds";
         }
         else //français
         {
@@ -38,6 +39,7 @@ public class menuScript : MonoBehaviour
             Textexts[3].text = "Paramètres";
             Textexts[4].text = "English";
             Textexts[5].text = "Musique";
+            Textexts[6].text = "Sons";
         }
     }
 
@@ -81,11 +83,10 @@ public class menuScript : MonoBehaviour
     {
         if (MenuParts[0].active)
         {
-            if (PlayerPrefs.GetFloat("volume_music") != Ssliders[0].value)
-            {
-                PlayerPrefs.SetFloat("volume_music", 0.35f * Ssliders[0].value);
-                Sound();
-            }
+            PlayerPrefs.SetFloat("volume_music", 0.35f * Ssliders[0].value);
+            Sound();
+
+            PlayerPrefs.SetFloat("volume_sounds", Ssliders[1].value);
         }
     }
 
