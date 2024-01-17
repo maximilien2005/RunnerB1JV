@@ -30,7 +30,7 @@ public class Runner : MonoBehaviour
             timer = Random.Range(3.5f, 7.5f);
         }
 
-        transform.position = new Vector3(12, transform.position.y, transform.position.z);
+        transform.position = new Vector3(5, transform.position.y, transform.position.z);
 
         Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);
         Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z + 0.6f), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);

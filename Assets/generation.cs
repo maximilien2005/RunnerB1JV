@@ -26,8 +26,14 @@ public class generation : MonoBehaviour
 
     string LanguageText;
 
+    AudioSource gameMusic;
+
     void Start()
     {
+        gameMusic = GetComponent<AudioSource>();
+        gameMusic.volume = PlayerPrefs.GetFloat("volume_music");
+        gameMusic.Play();
+
         Joueur = GameObject.Find("Player").GetComponent<joueur>();
 
         gen_poss.Add(0);
@@ -195,6 +201,7 @@ public class generation : MonoBehaviour
     }
     public void ButMenu()
     {
+        gameMusic.Stop();
         SceneManager.LoadScene(0);
     }
 }

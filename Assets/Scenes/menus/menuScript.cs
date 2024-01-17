@@ -11,7 +11,14 @@ public class menuScript : MonoBehaviour
 
     public Text[] Textexts;
     public GameObject[] MenuParts;
+    public Slider[] Ssliders;
 
+    AudioSource musicMenu;
+
+    void Sound()
+    {
+        musicMenu.volume = PlayerPrefs.GetFloat("volume_music");
+    }
     void Language()
     {
         if (PlayerPrefs.GetInt("Langue") == 0) //anglais
@@ -21,6 +28,7 @@ public class menuScript : MonoBehaviour
             Textexts[2].text = "Statistics";
             Textexts[3].text = "Settings";
             Textexts[4].text = "Français";
+            Textexts[5].text = "Music";
         }
         else //français
         {
@@ -29,6 +37,7 @@ public class menuScript : MonoBehaviour
             Textexts[2].text = "Statistiques";
             Textexts[3].text = "Paramètres";
             Textexts[4].text = "English";
+            Textexts[5].text = "Musique";
         }
     }
 
@@ -44,7 +53,11 @@ public class menuScript : MonoBehaviour
 
     void Start()
     {
+        musicMenu = GetComponent<AudioSource>();
+        musicMenu.Play();
+
         Language();
+        Sound();
 
         int length = 0;
         for (; length < 6; length++)
@@ -64,8 +77,21 @@ public class menuScript : MonoBehaviour
         Ctxt.text += "" + PlayerPrefs.GetInt("Ccoins"); //Récupérer la valeur de COINS !
     }
 
+    void Update()
+    {
+        if (MenuParts[0].active)
+        {
+            if (PlayerPrefs.GetFloat("volume_music") != Ssliders[0].value)
+            {
+                PlayerPrefs.SetFloat("volume_music", 0.35f * Ssliders[0].value);
+                Sound();
+            }
+        }
+    }
+
     public void ButStart()
     {
+        musicMenu.Stop();
         SceneManager.LoadScene(1);
     }
 
