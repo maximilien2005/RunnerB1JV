@@ -44,7 +44,7 @@ public class generation : MonoBehaviour
     {
         if (!PauseScreen.active)
         {
-            tscale += Time.deltaTime * (distance / 200);
+            tscale += Time.deltaTime * (distance / 800);
             Time.timeScale = tscale;
         }
         else

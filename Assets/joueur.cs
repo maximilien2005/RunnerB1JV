@@ -110,14 +110,18 @@ public class joueur : MonoBehaviour
 
         float velocityY = b - a;
 
-        if (velocityY > 400)
-            Jump();
-        if (velocityY < -400)
+        if (Input.GetKey(KeyCode.Mouse1) || Input.touchCount > 0)
         {
-            if (transform.position.y > 2)
-                rb.velocity -= new Vector3(0, 1.0f, 0);
-            else
-                StartCoroutine(Crouch());
+
+            if (velocityY > 400)
+                Jump();
+            if (velocityY < -400)
+            {
+                if (transform.position.y > 2)
+                    rb.velocity -= new Vector3(0, 1.0f, 0);
+                else
+                    StartCoroutine(Crouch());
+            }
         }
     }
 }
