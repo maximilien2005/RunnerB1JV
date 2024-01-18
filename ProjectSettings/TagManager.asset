@@ -16,6 +16,7 @@ TagManager:
   - left
   - gold
   - pu_slow
+  - pu_accelerate
   layers:
   - Default
   - TransparentFX
