@@ -14,10 +14,13 @@ public class Runner : MonoBehaviour
     float timer = 10.0f;
 
     Rigidbody rb;
+    Animator rAnim;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         gen_parent = GameObject.Find("gen_parent").transform;
+        rAnim = GetComponent<Animator>();
     }
 
     void Update()
@@ -76,6 +79,7 @@ public class Runner : MonoBehaviour
         {
             if (!Physics.Raycast(new Ray(transform.position, new Vector3(2, -1, 0)))) //détecter un trou
             {
+                rAnim.SetInteger("ra", 1);
                 rb.velocity += new Vector3(0, 0.8f, 0);
             }
         }
@@ -84,12 +88,17 @@ public class Runner : MonoBehaviour
         {
             StartCoroutine(Crouch());
         }
+
+        if (transform.position.y < 1.5f && transform.localScale.y == 1)
+            rAnim.SetInteger("ra", 0);
     }
 
     IEnumerator Crouch()
     {
+        rAnim.SetInteger("ra", -1);
         transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
         yield return new WaitForSeconds(1.5f);
         transform.localScale = new Vector3(transform.localScale.x, 1.0f, transform.localScale.z);
+        rAnim.SetInteger("ra", 0);
     }
 }

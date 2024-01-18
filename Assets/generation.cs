@@ -98,7 +98,14 @@ public class generation : MonoBehaviour
                 int side = Random.Range(-1, 2);
                 if (randPowerUp < 1.0f) //powerup
                 {
-                    Instantiate(powerup[0], gen.transform.position + new Vector3(Random.Range(-5, 5), 1.0f, 1.5f * side), powerup[0].transform.rotation, gen);
+                    float rObj = Random.Range(0.0f, 10.0f);
+                    int po = 0;
+
+                    if (rObj < 6)
+                        po = 0;
+                    else
+                        po = 1;
+                    Instantiate(powerup[po], gen.transform.position + new Vector3(Random.Range(-5, 5), 1.0f, 1.5f * side), powerup[po].transform.rotation, gen);
                 }
                 else //obstacle
                 {
@@ -217,5 +224,9 @@ public class generation : MonoBehaviour
             tscale = 1;
         else
             tscale -= 5;
+    }
+    public void SlowUp()
+    {
+        tscale += 5;
     }
 }
