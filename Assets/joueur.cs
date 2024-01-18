@@ -14,6 +14,7 @@ public class joueur : MonoBehaviour
     public GameObject pauseScreen;
 
     generation genScript;
+    Animator jAnim;
 
     void Start()
     {
@@ -22,17 +23,22 @@ public class joueur : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         genScript = GameObject.Find("gen_parent").GetComponent<generation>();
         cam = GameObject.Find("Camera").transform;
+        jAnim = GetComponent<Animator>();
     }
     void Jump()
     {
         if (transform.position.y < 1.5f)
         {
             rb.velocity += new Vector3(0, 2.0f, 0);
+            jAnim.SetInteger("ja", 1);
             Debug.Log("jump");
         }
     }
     void Update()
     {
+        if (transform.position.y < 1.5f && transform.localScale.y == 1)
+            jAnim.SetInteger("ja", 0);
+
         if (!pauseScreen.active)
         {
             //joueur
@@ -89,13 +95,19 @@ public class joueur : MonoBehaviour
             genScript.SlowDown();
             Destroy(other.gameObject);
         }
+        else if (other.transform.tag == "pu_accelerate")
+        {
+            genScript.SlowUp();
+        }
     }
 
     IEnumerator Crouch()
     {
+        jAnim.SetInteger("ja", -1);
         transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
         yield return new WaitForSeconds(2.0f); //changer la taille du joueur temportairement pour le crouch
         transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
+        jAnim.SetInteger("ja", 0);
     }
 
     IEnumerator MouseMov()
