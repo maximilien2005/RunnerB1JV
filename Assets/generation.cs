@@ -113,7 +113,7 @@ public class generation : MonoBehaviour
                     int objstacle = 0;
                     if (rObj > 8.0f)
                         objstacle = 1;
-                    else if (rObj < 2.0f)
+                    else if (rObj < 1.0f)
                         objstacle = 2;
 
                     Instantiate(obstacles[objstacle], gen.transform.position + new Vector3(Random.Range(-5, 5), 1.0f, 1.5f * side), obstacles[objstacle].transform.rotation, gen);
