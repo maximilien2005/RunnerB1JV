@@ -12,7 +12,7 @@ public class generation : MonoBehaviour
     float distance = 0;
     public float targetCamPos = 0;
 
-    public GameObject[] gens, obstacles;
+    public GameObject[] gens, obstacles, powerup;
     GameObject Player, cam; public GameObject endGameScreen, PauseScreen;
     Transform gen_parent;
     Text txt;
@@ -57,7 +57,7 @@ public class generation : MonoBehaviour
     {
         if (!PauseScreen.active)
         {
-            tscale += Time.deltaTime * (distance / 800);
+            tscale += Time.deltaTime * (distance / 2000);
             Time.timeScale = tscale;
         }
         else
@@ -94,17 +94,23 @@ public class generation : MonoBehaviour
                     gen_poss.RemoveAt(i);
 
                 //Placer les obstacles sur la platforme
-                float rObj = Random.Range(0.0f, 10.0f);
-                int objstacle = 0;
-                if (rObj > 8.0f)
-                    objstacle = 1;
-                else if (rObj < 2.0f)
-                    objstacle = 2;
-
+                float randPowerUp = Random.Range(0.0f, 10.0f);
                 int side = Random.Range(-1, 2);
+                if (randPowerUp < 1.0f) //powerup
+                {
+                    Instantiate(powerup[0], gen.transform.position + new Vector3(Random.Range(-5, 5), 1.0f, 1.5f * side), powerup[0].transform.rotation, gen);
+                }
+                else //obstacle
+                {
+                    float rObj = Random.Range(0.0f, 10.0f);
+                    int objstacle = 0;
+                    if (rObj > 8.0f)
+                        objstacle = 1;
+                    else if (rObj < 2.0f)
+                        objstacle = 2;
 
-                Instantiate(obstacles[objstacle], gen.transform.position + new Vector3(Random.Range(-5, 5), 1.0f, 1.5f * side), obstacles[objstacle].transform.rotation, gen);
-
+                    Instantiate(obstacles[objstacle], gen.transform.position + new Vector3(Random.Range(-5, 5), 1.0f, 1.5f * side), obstacles[objstacle].transform.rotation, gen);
+                }
                 //indice = indiceGen(gen.position.z);
 
                // x_gen -= gens[indice].transform.GetChild(0).transform.localScale.x / 2 - 2;
@@ -203,5 +209,13 @@ public class generation : MonoBehaviour
     {
         gameMusic.Stop();
         SceneManager.LoadScene(0);
+    }
+
+    public void SlowDown()
+    {
+        if (tscale < 6)
+            tscale = 1;
+        else
+            tscale -= 5;
     }
 }

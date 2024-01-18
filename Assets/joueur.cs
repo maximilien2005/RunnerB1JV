@@ -53,7 +53,7 @@ public class joueur : MonoBehaviour
                 }
             }
 
-            float posX = cam.transform.position.z - PLATFORM_WIDTH * ((x - Screen.width / 2) / (Screen.width / 2)); //convertir la position du click à l'écran en un position z en jeu
+            float posX = cam.transform.position.z - 0.25f * PLATFORM_WIDTH * ((x - Screen.width / 2) / (Screen.width / 2)); //convertir la position du click à l'écran en un position z en jeu
 
             if (Mathf.Abs(transform.position.z - posX) < 0.1f)
             { //ce que je veux faire marche po :(
@@ -81,6 +81,12 @@ public class joueur : MonoBehaviour
         if (other.transform.tag == "gold")
         {
             gold++;
+            Destroy(other.gameObject);
+        }
+
+        if (other.transform.tag == "pu_slow")
+        {
+            genScript.SlowDown();
             Destroy(other.gameObject);
         }
     }
