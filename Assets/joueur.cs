@@ -23,7 +23,7 @@ public class joueur : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         genScript = GameObject.Find("gen_parent").GetComponent<generation>();
         cam = GameObject.Find("Camera").transform;
-        jAnim = transform.GetComponent<Animator>();
+        jAnim = transform.GetChild(0).GetComponent<Animator>();
     }
     void Jump()
     {
