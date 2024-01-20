@@ -13,9 +13,7 @@ public class generation : MonoBehaviour
     public float targetCamPos = 0;
 
     public GameObject[] gens, obstacles, powerup;
-    public Slider[] ss;
-    public Text[] txtxt;
-    GameObject Player, cam; public GameObject endGameScreen, PauseScreen, ParaScreen;
+    GameObject Player, cam; public GameObject endGameScreen, PauseScreen;
     Transform gen_parent;
     Text txt;
 
@@ -51,23 +49,9 @@ public class generation : MonoBehaviour
         InvokeRepeating("DestroyGen", 0.0f, 2.0f);
 
         if (PlayerPrefs.GetInt("Langue") == 0) //Anglais
-        {
             LanguageText = "coins";
-
-            txtxt[0].text = "Settings";
-            txtxt[1].text = "Music";
-            txtxt[2].text = "Song";
-            txtxt[3].text = "Setting";
-        }
         else
-        {
             LanguageText = "pièces";
-
-            txtxt[0].text = "Paramètres ";
-            txtxt[1].text = "Musique";
-            txtxt[2].text = "Sons";
-            txtxt[3].text = "Paramètres";
-        }
     }
     void Update()
     {
@@ -148,14 +132,6 @@ public class generation : MonoBehaviour
             //déplacer la caméra dans le bon sens jusqu'au target pos
             else if (cam.transform.position.z < targetCamPos)
                 cam.transform.Translate(new Vector3(0, 0, CAM_SPEED), Space.World);
-        }
-
-        if (ParaScreen.active)
-        {
-            PlayerPrefs.SetFloat("volume_music", 0.35f * ss[0].value);
-            PlayerPrefs.SetFloat("volume_sounds", ss[1].value);
-
-            gameMusic.volume = PlayerPrefs.GetFloat("volume_music");
         }
     }
 
@@ -251,9 +227,5 @@ public class generation : MonoBehaviour
     public void SlowUp()
     {
         tscale += 5;
-    }
-    public void ParaSon()
-    {
-        ParaScreen.active = !ParaScreen.active;
     }
 }
