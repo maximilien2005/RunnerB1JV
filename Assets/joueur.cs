@@ -7,7 +7,8 @@ public class joueur : MonoBehaviour
 {
     const float PLATFORM_WIDTH = 3.5f, MOV_SPEED = 0.01f;
     float x = Screen.width / 2;
-    public int gold = 0;
+    public int gold = 0, lifes = 0;
+    bool invincible = false;
     Rigidbody rb;
 
     Transform cam;
@@ -31,7 +32,6 @@ public class joueur : MonoBehaviour
         {
             rb.velocity += new Vector3(0, 2.0f, 0);
             jAnim.SetInteger("ja", 1);
-            Debug.Log("jump");
         }
     }
     void Update()
@@ -70,19 +70,30 @@ public class joueur : MonoBehaviour
         }
     }
 
+    IEnumerator HIT()
+    {
+        invincible = true;
+
+        if (lifes < 3)
+            lifes++;
+        else
+            genScript.EndGame();
+
+        yield return new WaitForSeconds(1.0f);
+        invincible = false;
+    }
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "obstacle")
+        if (other.transform.tag == "obstacle" && !invincible)
         {
-            genScript.EndGame();
+            StartCoroutine(HIT());
         }
 
         if (other.transform.tag == "left") //déplacer la caméra d'un espace de 8 jusqu'à l'autre côté
             genScript.OtherRoadCam(other.gameObject);
         if (other.transform.tag == "right")
             genScript.OtherRoadCam(other.gameObject);
-
-        Debug.Log(other.transform.tag);
 
         if (other.transform.tag == "gold")
         {

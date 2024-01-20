@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Obsolete]
 public class Runner : MonoBehaviour
 {
     const float speed = 10.0f, PLATFORME_WIDTH = 3.5f;
@@ -15,12 +16,14 @@ public class Runner : MonoBehaviour
 
     Rigidbody rb;
     Animator rAnim;
+    joueur jScript;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         gen_parent = GameObject.Find("gen_parent").transform;
-        rAnim = GetComponent<Animator>();
+        rAnim = transform.GetChild(0).GetComponent<Animator>();
+        jScript = GameObject.Find("Player").GetComponent<joueur>();
     }
 
     void Update()
@@ -33,11 +36,13 @@ public class Runner : MonoBehaviour
             timer = Random.Range(3.5f, 7.5f);
         }
 
-        transform.position = new Vector3(5, transform.position.y, transform.position.z);
+        transform.position = new Vector3(4 + 4.5f * jScript.lifes, transform.position.y, transform.position.z);
 
+        /* Debug
         Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);
         Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z + 0.6f), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);
         Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z - 0.6f), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);
+        */
 
         RaycastHit hit;
         if (((Physics.Raycast(new Ray(transform.position + new Vector3(0, 0, +0.6f), new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle") ||
@@ -45,7 +50,6 @@ public class Runner : MonoBehaviour
             Physics.Raycast(new Ray(transform.position, new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle") &&
             Vector3.Distance(transform.position, hit.collider.transform.position) < 20) //gauche droite : détection d'obstacles
         {
-            Debug.Log("hited");
 
             if (!move)
             {

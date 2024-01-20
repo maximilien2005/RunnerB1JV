@@ -915,6 +915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gold: 0
+  lifes: 0
   pauseScreen: {fileID: 679441618}
 --- !u!4 &601477958 stripped
 Transform:

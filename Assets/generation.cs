@@ -77,7 +77,6 @@ public class generation : MonoBehaviour
             for (int i = 0; i < gen_poss.Count; i++)
             {
                 int iGen = indiceGen(gen_poss[i]);
-                Debug.Log(iGen);
 
                 //déplacer le prochain endroit de la génération à 0.5 * la largeur de la platforme qui spawn + 0.5 * la largeur de la prochaine qui va spawn
                 Transform gen = Instantiate(gens[iGen], new Vector3(100, 0, gen_poss[i]), gens[indice].transform.rotation, gen_parent).transform;
