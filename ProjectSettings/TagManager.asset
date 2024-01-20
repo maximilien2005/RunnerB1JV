@@ -17,6 +17,7 @@ TagManager:
   - gold
   - pu_slow
   - pu_accelerate
+  - obstacleB
   layers:
   - Default
   - TransparentFX

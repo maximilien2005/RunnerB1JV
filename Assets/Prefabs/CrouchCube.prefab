@@ -113,6 +113,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 2388370569000928192, guid: c84604c4b88b22a4492f19be062f0d69,
+        type: 3}
+      propertyPath: m_TagString
+      value: obstacleB
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c84604c4b88b22a4492f19be062f0d69, type: 3}
 --- !u!4 &794834527875851370 stripped

@@ -89,6 +89,8 @@ public class joueur : MonoBehaviour
         {
             StartCoroutine(HIT());
         }
+        if (other.transform.tag == "obstacleB" && !invincible)
+            genScript.EndGame();
 
         if (other.transform.tag == "left") //déplacer la caméra d'un espace de 8 jusqu'à l'autre côté
             genScript.OtherRoadCam(other.gameObject);

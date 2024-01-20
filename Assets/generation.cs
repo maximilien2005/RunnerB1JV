@@ -121,7 +121,7 @@ public class generation : MonoBehaviour
 
                // x_gen -= gens[indice].transform.GetChild(0).transform.localScale.x / 2 - 2;
             }
-            x_gen -= 20;
+            x_gen -= 19;
         }
 
         //déaplcer la caméra en fonction des platformes choisies
