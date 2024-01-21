@@ -1162,6 +1162,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gold: 0
   lifes: 0
+  img:
+  - {fileID: 21300000, guid: 563b0396290959049a0e62736bb706f9, type: 3}
+  - {fileID: 21300000, guid: 025ceb5ba561d2a49a96d13fd1521e69, type: 3}
+  - {fileID: 21300000, guid: 4b0ffb8566a00004e9ba52b5b4eb2e87, type: 3}
+  - {fileID: 21300000, guid: b2694ca23b47d4545bb50d861a8f2bbd, type: 3}
+  - {fileID: 21300000, guid: d1444917c64035c4aa0ac124bb6ed207, type: 3}
   pauseScreen: {fileID: 679441618}
 --- !u!1 &592831191
 GameObject:
