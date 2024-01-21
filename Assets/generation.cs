@@ -13,7 +13,9 @@ public class generation : MonoBehaviour
     public float targetCamPos = 0;
 
     public GameObject[] gens, obstacles, powerup;
-    GameObject Player, cam; public GameObject endGameScreen, PauseScreen;
+    public Slider[] ss;
+    public Text[] txtxt;
+    GameObject Player, cam; public GameObject endGameScreen, PauseScreen, ParaScreen;
     Transform gen_parent;
     Text txt;
 
@@ -48,11 +50,41 @@ public class generation : MonoBehaviour
 
         InvokeRepeating("DestroyGen", 0.0f, 2.0f);
 
-        if (PlayerPrefs.GetInt("Langue") == 0) //Anglais
-            LanguageText = "coins";
-        else
-            LanguageText = "pièces";
+        LanguageCheck();
     }
+
+    public void LanguageChange()
+    {
+        if (PlayerPrefs.GetInt("Langue") == 0)
+            PlayerPrefs.SetInt("Langue", 1);
+        else
+            PlayerPrefs.SetInt("Langue", 0);
+
+        LanguageCheck();
+    }
+
+    void LanguageCheck()
+    {
+        if (PlayerPrefs.GetInt("Langue") == 0) //Anglais
+        {
+            LanguageText = "coins";
+
+            txtxt[0].text = "Settings";
+            txtxt[1].text = "Music";
+            txtxt[2].text = "Song";
+            txtxt[3].text = "Français";
+        }
+        else
+        {
+            LanguageText = "pièces";
+
+            txtxt[0].text = "Paramètres ";
+            txtxt[1].text = "Musique";
+            txtxt[2].text = "Sons";
+            txtxt[3].text = "English";
+        }
+    }
+
     void Update()
     {
         if (!PauseScreen.active)
@@ -77,7 +109,6 @@ public class generation : MonoBehaviour
             for (int i = 0; i < gen_poss.Count; i++)
             {
                 int iGen = indiceGen(gen_poss[i]);
-                Debug.Log(iGen);
 
                 //déplacer le prochain endroit de la génération à 0.5 * la largeur de la platforme qui spawn + 0.5 * la largeur de la prochaine qui va spawn
                 Transform gen = Instantiate(gens[iGen], new Vector3(100, 0, gen_poss[i]), gens[indice].transform.rotation, gen_parent).transform;
@@ -113,7 +144,7 @@ public class generation : MonoBehaviour
                     int objstacle = 0;
                     if (rObj > 8.0f)
                         objstacle = 1;
-                    else if (rObj < 2.0f)
+                    else if (rObj < 1.0f)
                         objstacle = 2;
 
                     Instantiate(obstacles[objstacle], gen.transform.position + new Vector3(Random.Range(-5, 5), 1.0f, 1.5f * side), obstacles[objstacle].transform.rotation, gen);
@@ -122,7 +153,7 @@ public class generation : MonoBehaviour
 
                // x_gen -= gens[indice].transform.GetChild(0).transform.localScale.x / 2 - 2;
             }
-            x_gen -= 20;
+            x_gen -= 19;
         }
 
         //déaplcer la caméra en fonction des platformes choisies
@@ -133,6 +164,14 @@ public class generation : MonoBehaviour
             //déplacer la caméra dans le bon sens jusqu'au target pos
             else if (cam.transform.position.z < targetCamPos)
                 cam.transform.Translate(new Vector3(0, 0, CAM_SPEED), Space.World);
+        }
+
+        if (ParaScreen.active)
+        {
+            PlayerPrefs.SetFloat("volume_music", 0.35f * ss[0].value);
+            PlayerPrefs.SetFloat("volume_sounds", ss[1].value);
+
+            gameMusic.volume = PlayerPrefs.GetFloat("volume_music");
         }
     }
 
@@ -164,6 +203,7 @@ public class generation : MonoBehaviour
                 Destroy(gen_parent.GetChild(i).gameObject);
         }
     }
+
 
     int indiceGen(float ActualZ)
     {
@@ -228,5 +268,10 @@ public class generation : MonoBehaviour
     public void SlowUp()
     {
         tscale += 5;
+    }
+
+    public void ParaSon()
+    {
+        ParaScreen.active = !ParaScreen.active;
     }
 }
