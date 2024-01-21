@@ -17,7 +17,7 @@ public class generation : MonoBehaviour
     public Text[] txtxt;
     GameObject Player, cam; public GameObject endGameScreen, PauseScreen, ParaScreen;
     Transform gen_parent;
-    Text txt;
+    Text txt, txtg;
 
     joueur Joueur;
 
@@ -45,6 +45,7 @@ public class generation : MonoBehaviour
         Player = GameObject.Find("Player");
         gen_parent = GameObject.Find("gen_parent").transform; //là où seront en enfant les platformes gen;
         txt = GameObject.Find("Text").GetComponent<Text>();
+        txtg = GameObject.Find("Textg").GetComponent<Text>();
         cam = GameObject.Find("Camera");
         txt.text = "NULL";
 
@@ -98,7 +99,8 @@ public class generation : MonoBehaviour
         //Distance & affichage
         //       +=         (valeur) simplification en 0.0
         distance += Time.deltaTime * SPEED / 5;
-        txt.text = (Mathf.Round(distance * 10) / 10) + "m\n" + Joueur.gold + " " + LanguageText;
+        txt.text = "" + (Mathf.Round(distance * 10) / 10);
+        txtg.text = Joueur.gold + " " + LanguageText;
 
         GameOverTest();
 
