@@ -14,6 +14,9 @@ public class joueur : MonoBehaviour
     int cost = 2;
     Text rrtt;
 
+    public Sprite[] img;
+    Image roue;
+
     Transform cam;
     public GameObject pauseScreen;
 
@@ -30,21 +33,28 @@ public class joueur : MonoBehaviour
                 int rand = Random.Range(0, 4);
 
                 if (rand == 0)
+                {
                     genScript.SlowDown();
+                }
                 else if (rand == 1)
+                {
                     genScript.SlowUp();
+                }
                 else if (rand == 2)
                 {
                     if (lifes > 0)
                         lifes--;
                 }
                 else
+                {
                     StartCoroutine(rScript.AutoGold());
+                }
 
                 gold -= cost;
                 cost *= 2; //cout
                 rrtt.text = "" + cost;
 
+                roue.sprite = img[rand + 1];
                 Debug.Log("You got id:" + rand + " !");
             }
             RoueTimer = 4.0f; // COOLDOWN
@@ -67,6 +77,7 @@ public class joueur : MonoBehaviour
         rScript = GameObject.Find("pasGentil").GetComponent<Runner>();
         cam = GameObject.Find("Camera").transform;
         jAnim = transform.GetChild(0).GetComponent<Animator>();
+        roue = GameObject.Find("roue").transform.GetChild(0).GetComponent<Image>();
     }
     void Jump()
     {
@@ -83,7 +94,8 @@ public class joueur : MonoBehaviour
 
         if (RoueTimer > 0)
             RoueTimer -= Time.deltaTime;
-
+        else
+            roue.sprite = img[0];
 
         if (transform.position.y < 1.5f && transform.localScale.y == 1)
             jAnim.SetInteger("ja", 0);
