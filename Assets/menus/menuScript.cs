@@ -55,6 +55,10 @@ public class menuScript : MonoBehaviour
 
     void Start()
     {
+        Debug.LogWarning("Use K Key on PC for reset saved gold value");
+        //Editor
+
+
         musicMenu = GetComponent<AudioSource>();
         musicMenu.Play();
 
@@ -81,6 +85,13 @@ public class menuScript : MonoBehaviour
 
     void Update()
     {
+        //Editor
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            PlayerPrefs.SetInt("Ccoins", 0);
+        }
+
+
         if (MenuParts[0].active)
         {
             PlayerPrefs.SetFloat("volume_music", 0.35f * Ssliders[0].value);
