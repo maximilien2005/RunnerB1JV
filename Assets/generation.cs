@@ -32,6 +32,9 @@ public class generation : MonoBehaviour
 
     void Start()
     {
+        Debug.LogWarning("Use K Key on PC for reset saved gold value");
+        //Editor
+
         gameMusic = GetComponent<AudioSource>();
         gameMusic.volume = PlayerPrefs.GetFloat("volume_music");
         gameMusic.Play();
@@ -88,6 +91,13 @@ public class generation : MonoBehaviour
 
     void Update()
     {
+        //Editor
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            PlayerPrefs.SetInt("Ccoins", PlayerPrefs.GetInt("Ccoins"));
+        }
+
+
         if (!PauseScreen.active)
         {
             tscale += Time.deltaTime * (distance / 12000);
@@ -191,7 +201,6 @@ public class generation : MonoBehaviour
         if (!endGameScreen.active)
         {
             PlayerPrefs.SetInt("Ccoins", PlayerPrefs.GetInt("Ccoins") + Joueur.gold); //augmenter la valeur totale de gold
-            PlayerPrefs.SetInt("save_dist", 0);
             endGameScreen.active = true;
             Time.timeScale = 0;
         }
