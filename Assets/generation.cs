@@ -99,7 +99,7 @@ public class generation : MonoBehaviour
         //Distance & affichage
         //       +=         (valeur) simplification en 0.0
         distance += Time.deltaTime * SPEED / 5;
-        txt.text = "" + (Mathf.Round(distance * 10) / 10);
+        txt.text = (Mathf.Round(distance * 10) / 10) + "m";
         txtg.text = Joueur.gold + " " + LanguageText;
 
         GameOverTest();
