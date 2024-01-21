@@ -24,7 +24,7 @@ public class menuScript : MonoBehaviour
         if (PlayerPrefs.GetInt("Langue") == 0) //anglais
         {
             Textexts[0].text = "Start";
-            Textexts[1].text = "Goals";
+            Textexts[1].text = "Tuto";
             Textexts[2].text = "Statistics";
             Textexts[3].text = "Settings";
             Textexts[4].text = "Français";
@@ -34,13 +34,18 @@ public class menuScript : MonoBehaviour
         else //français
         {
             Textexts[0].text = "Démarrer";
-            Textexts[1].text = "Objectifs";
+            Textexts[1].text = "Touto";
             Textexts[2].text = "Statistiques";
             Textexts[3].text = "Paramètres";
             Textexts[4].text = "English";
             Textexts[5].text = "Musique";
             Textexts[6].text = "Sons";
         }
+    }
+
+    public void ButTuto()
+    {
+        MenuParts[1].active = true;
     }
 
     public void ButLangue()
