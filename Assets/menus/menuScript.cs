@@ -60,7 +60,7 @@ public class menuScript : MonoBehaviour
 
     void Start()
     {
-        Debug.LogWarning("Use K Key on PC for reset saved gold value");
+        Debug.LogWarning("Use K Key on PC to reset saved gold value");
         //Editor
 
 
