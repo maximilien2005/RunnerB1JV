@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Obsolete]
 public class joueur : MonoBehaviour
@@ -11,6 +12,7 @@ public class joueur : MonoBehaviour
     bool invincible = false;
     Rigidbody rb;
     int cost = 2;
+    Text rrtt;
 
     Transform cam;
     public GameObject pauseScreen;
@@ -25,7 +27,7 @@ public class joueur : MonoBehaviour
         {
             if (gold >= cost)
             {
-                int rand = Random.Range(0, 3);
+                int rand = Random.Range(0, 4);
 
                 if (rand == 0)
                     genScript.SlowDown();
@@ -37,10 +39,11 @@ public class joueur : MonoBehaviour
                         lifes--;
                 }
                 else
-                    rScript.AutoGold();
+                    StartCoroutine(rScript.AutoGold());
 
                 gold -= cost;
                 cost *= 2; //cout
+                rrtt.text = "" + cost;
 
                 Debug.Log("You got id:" + rand + " !");
             }
@@ -75,6 +78,9 @@ public class joueur : MonoBehaviour
     }
     void Update()
     {
+        rrtt = GameObject.Find("rrtt").GetComponent<Text>();
+        rrtt.text = "" + cost;
+
         if (RoueTimer > 0)
             RoueTimer -= Time.deltaTime;
 
