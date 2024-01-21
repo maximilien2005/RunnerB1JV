@@ -89,7 +89,7 @@ public class generation : MonoBehaviour
     {
         if (!PauseScreen.active)
         {
-            tscale += Time.deltaTime * (distance / 2000);
+            tscale += Time.deltaTime * (distance / 8000);
             Time.timeScale = tscale;
         }
         else
@@ -127,7 +127,7 @@ public class generation : MonoBehaviour
                 //Placer les obstacles sur la platforme
                 float randPowerUp = Random.Range(0.0f, 10.0f);
                 int side = Random.Range(-1, 2);
-                if (randPowerUp < 1.0f) //powerup
+                if (randPowerUp < 0.4f) //powerup
                 {
                     float rObj = Random.Range(0.0f, 10.0f);
                     int po = 0;
@@ -267,7 +267,7 @@ public class generation : MonoBehaviour
     }
     public void SlowUp()
     {
-        tscale += 5;
+        tscale += 2;
     }
 
     public void ParaSon()

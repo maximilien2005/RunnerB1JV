@@ -111,6 +111,7 @@ public class joueur : MonoBehaviour
         else if (other.transform.tag == "pu_accelerate")
         {
             genScript.SlowUp();
+            Destroy(other.gameObject);
         }
     }
 

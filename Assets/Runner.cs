@@ -5,9 +5,11 @@ using UnityEngine;
 [System.Obsolete]
 public class Runner : MonoBehaviour
 {
-    const float speed = 10.0f, PLATFORME_WIDTH = 3.5f;
+    const float speed = 40.0f, PLATFORME_WIDTH = 3.5f;
     bool move = false;
     int dir = 0;
+
+    bool moving = false;
 
     public GameObject piece;
     Transform gen_parent;
@@ -25,6 +27,8 @@ public class Runner : MonoBehaviour
         rAnim = transform.GetChild(0).GetComponent<Animator>();
         jScript = GameObject.Find("Player").GetComponent<joueur>();
     }
+    
+    bool L = false, R = false;
 
     void Update()
     {
@@ -37,38 +41,36 @@ public class Runner : MonoBehaviour
         }
 
         transform.position = new Vector3(4 + 4.5f * jScript.lifes, transform.position.y, transform.position.z);
-
-        /* Debug
-        Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);
-        Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z + 0.6f), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);
-        Debug.DrawRay(new Vector3(transform.position.x, 0.8f, transform.position.z - 0.6f), new Vector3(1, 0, 0), Color.red, Mathf.Infinity);
-        */
-
+        if (transform.position.y < 0.0f)
+            transform.position = new Vector3(transform.position.x, 1.04f, transform.position.z);
+        
         RaycastHit hit;
-        if (((Physics.Raycast(new Ray(transform.position + new Vector3(0, 0, +0.6f), new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle") ||
-            (Physics.Raycast(new Ray(transform.position + new Vector3(0, 0, -0.6f), new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle") ||
-            Physics.Raycast(new Ray(transform.position, new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle") &&
-            Vector3.Distance(transform.position, hit.collider.transform.position) < 20) //gauche droite : détection d'obstacles
+        if (Physics.Raycast(new Ray(new Vector3(transform.position.x, 1.0f, transform.position.z + 0.3f), new Vector3(1, 0, 0)), out hit) && !R && Vector3.Distance(transform.position, hit.collider.transform.position) < 5)
         {
-
-            if (!move)
-            {
-                if (transform.position.z > 0)
-                    dir = -1;
-                else
-                    dir = 1;
-
-                move = true;
-            }
+            L = true;
         }
-        if (!(((Physics.Raycast(new Ray(transform.position + new Vector3(0, 0, +0.6f), new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle") &&
-            (Physics.Raycast(new Ray(transform.position + new Vector3(0, 0, -0.6f), new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle") &&
-            (Physics.Raycast(new Ray(transform.position, new Vector3(1, 0, 0)), out hit) && hit.collider.tag == "obstacle")) &&
-            Vector3.Distance(transform.position, hit.transform.position) < 20))
-            move = false;
-        if (move)
+        else
+            L = false;
+        if (Physics.Raycast(new Ray(new Vector3(transform.position.x, 1.0f, transform.position.z - 0.3f), new Vector3(1, 0, 0)), out hit) && !L && Vector3.Distance(transform.position, hit.collider.transform.position) < 5)
         {
-            transform.Translate(new Vector3(0, 0, dir) * speed * Time.deltaTime);
+            R = true;
+        }
+        else
+            R = false;
+
+        if (L)
+        {
+            if (Mathf.Abs(transform.position.z) < 1.5f)
+                transform.Translate(new Vector3(0, 0, -1) * speed * Time.deltaTime);
+            else
+                transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime);
+        }
+        else if (R)
+        {
+            if (Mathf.Abs(transform.position.z) < 1.5f)
+                transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime);
+            else
+                transform.Translate(new Vector3(0, 0, -1) * speed * Time.deltaTime);
         }
 
         //Faire en sorte que lennemie n'entre pas en collision avec les obstacles
@@ -83,8 +85,9 @@ public class Runner : MonoBehaviour
         {
             if (!Physics.Raycast(new Ray(transform.position, new Vector3(2, -1, 0)))) //détecter un trou
             {
+                Debug.Log("a");
                 rAnim.SetInteger("ra", 1);
-                rb.velocity += new Vector3(0, 0.8f, 0);
+                rb.velocity += new Vector3(0, 1.0f, 0);
             }
         }
 
