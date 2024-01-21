@@ -17,7 +17,7 @@ public class generation : MonoBehaviour
     public Text[] txtxt;
     GameObject Player, cam; public GameObject endGameScreen, PauseScreen, ParaScreen;
     Transform gen_parent;
-    Text txt;
+    Text txt, txtg;
 
     joueur Joueur;
 
@@ -32,6 +32,9 @@ public class generation : MonoBehaviour
 
     void Start()
     {
+        Debug.LogWarning("Use K Key on PC for reset saved gold value");
+        //Editor
+
         gameMusic = GetComponent<AudioSource>();
         gameMusic.volume = PlayerPrefs.GetFloat("volume_music");
         gameMusic.Play();
@@ -45,6 +48,7 @@ public class generation : MonoBehaviour
         Player = GameObject.Find("Player");
         gen_parent = GameObject.Find("gen_parent").transform; //là où seront en enfant les platformes gen;
         txt = GameObject.Find("Text").GetComponent<Text>();
+        txtg = GameObject.Find("Textg").GetComponent<Text>();
         cam = GameObject.Find("Camera");
         txt.text = "NULL";
 
@@ -87,9 +91,16 @@ public class generation : MonoBehaviour
 
     void Update()
     {
+        //Editor
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            PlayerPrefs.SetInt("Ccoins", PlayerPrefs.GetInt("Ccoins"));
+        }
+
+
         if (!PauseScreen.active)
         {
-            tscale += Time.deltaTime * (distance / 2000);
+            tscale += Time.deltaTime * (distance / 12000);
             Time.timeScale = tscale;
         }
         else
@@ -98,7 +109,8 @@ public class generation : MonoBehaviour
         //Distance & affichage
         //       +=         (valeur) simplification en 0.0
         distance += Time.deltaTime * SPEED / 5;
-        txt.text = (Mathf.Round(distance * 10) / 10) + "m\n" + Joueur.gold + " " + LanguageText;
+        txt.text = (Mathf.Round(distance * 10) / 10) + "m";
+        txtg.text = Joueur.gold + " " + LanguageText;
 
         GameOverTest();
 
@@ -127,7 +139,7 @@ public class generation : MonoBehaviour
                 //Placer les obstacles sur la platforme
                 float randPowerUp = Random.Range(0.0f, 10.0f);
                 int side = Random.Range(-1, 2);
-                if (randPowerUp < 1.0f) //powerup
+                if (randPowerUp < 0.4f) //powerup
                 {
                     float rObj = Random.Range(0.0f, 10.0f);
                     int po = 0;
@@ -189,7 +201,6 @@ public class generation : MonoBehaviour
         if (!endGameScreen.active)
         {
             PlayerPrefs.SetInt("Ccoins", PlayerPrefs.GetInt("Ccoins") + Joueur.gold); //augmenter la valeur totale de gold
-            PlayerPrefs.SetInt("save_dist", 0);
             endGameScreen.active = true;
             Time.timeScale = 0;
         }
@@ -267,7 +278,12 @@ public class generation : MonoBehaviour
     }
     public void SlowUp()
     {
-        tscale += 5;
+        tscale += 0.2f;
+    }
+
+    public void ParaSon()
+    {
+        ParaScreen.active = !ParaScreen.active;
     }
 
     public void ParaSon()
