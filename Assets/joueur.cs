@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [System.Obsolete]
 public class joueur : MonoBehaviour
@@ -11,92 +10,32 @@ public class joueur : MonoBehaviour
     public int gold = 0, lifes = 0;
     bool invincible = false;
     Rigidbody rb;
-    int cost = 2;
-    Text rrtt;
-
-    public Sprite[] img;
-    Image roue;
 
     Transform cam;
     public GameObject pauseScreen;
 
-    generation genScript; Runner rScript;
+    generation genScript;
     Animator jAnim;
-
-    float RoueTimer = 0;
-    public void ArgentRoue()
-    {
-        if (RoueTimer <= 0)
-        {
-            if (gold >= cost)
-            {
-                int rand = Random.Range(0, 4);
-
-                if (rand == 0)
-                {
-                    genScript.SlowDown();
-                }
-                else if (rand == 1)
-                {
-                    genScript.SlowUp();
-                }
-                else if (rand == 2)
-                {
-                    if (lifes > 0)
-                        lifes--;
-                }
-                else
-                {
-                    StartCoroutine(rScript.AutoGold());
-                }
-
-                gold -= cost;
-                cost *= 2; //cout
-                rrtt.text = "" + cost;
-
-                roue.sprite = img[rand + 1];
-                Debug.Log("You got id:" + rand + " !");
-            }
-            RoueTimer = 4.0f; // COOLDOWN
-        }
-    }
-
-    public void LifesAdd()
-    {
-        if (lifes > 0)
-            lifes--;
-    }
 
     void Start()
     {
-
         Time.timeScale = 1;
 
         rb = GetComponent<Rigidbody>();
         genScript = GameObject.Find("gen_parent").GetComponent<generation>();
-        rScript = GameObject.Find("pasGentil").GetComponent<Runner>();
         cam = GameObject.Find("Camera").transform;
         jAnim = transform.GetChild(0).GetComponent<Animator>();
-        roue = GameObject.Find("roue").transform.GetChild(0).GetComponent<Image>();
     }
     void Jump()
     {
         if (transform.position.y < 1.5f)
         {
-            rb.velocity += new Vector3(0, 1.0f, 0);
+            rb.velocity += new Vector3(0, 2.0f, 0);
             jAnim.SetInteger("ja", 1);
         }
     }
     void Update()
     {
-        rrtt = GameObject.Find("rrtt").GetComponent<Text>();
-        rrtt.text = "" + cost;
-
-        if (RoueTimer > 0)
-            RoueTimer -= Time.deltaTime;
-        else
-            roue.sprite = img[0];
-
         if (transform.position.y < 1.5f && transform.localScale.y == 1)
             jAnim.SetInteger("ja", 0);
 
@@ -120,7 +59,7 @@ public class joueur : MonoBehaviour
                 }
             }
 
-            float posX = cam.transform.position.z - 0.4f * PLATFORM_WIDTH * ((x - Screen.width / 2) / (Screen.width / 2)); //convertir la position du click à l'écran en un position z en jeu
+            float posX = cam.transform.position.z - 0.25f * PLATFORM_WIDTH * ((x - Screen.width / 2) / (Screen.width / 2)); //convertir la position du click à l'écran en un position z en jeu
 
             if (Mathf.Abs(transform.position.z - posX) < 0.1f)
             { //ce que je veux faire marche po :(
@@ -172,7 +111,6 @@ public class joueur : MonoBehaviour
         else if (other.transform.tag == "pu_accelerate")
         {
             genScript.SlowUp();
-            Destroy(other.gameObject);
         }
     }
 

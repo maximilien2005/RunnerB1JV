@@ -32,6 +32,9 @@ public class generation : MonoBehaviour
 
     void Start()
     {
+        Debug.LogWarning("Use K Key on PC for reset saved gold value");
+        //Editor
+
         gameMusic = GetComponent<AudioSource>();
         gameMusic.volume = PlayerPrefs.GetFloat("volume_music");
         gameMusic.Play();
@@ -87,9 +90,16 @@ public class generation : MonoBehaviour
 
     void Update()
     {
+        //Editor
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            PlayerPrefs.SetInt("Ccoins", PlayerPrefs.GetInt("Ccoins"));
+        }
+
+
         if (!PauseScreen.active)
         {
-            tscale += Time.deltaTime * (distance / 12000);
+            tscale += Time.deltaTime * (distance / 2000);
             Time.timeScale = tscale;
         }
         else
@@ -127,7 +137,7 @@ public class generation : MonoBehaviour
                 //Placer les obstacles sur la platforme
                 float randPowerUp = Random.Range(0.0f, 10.0f);
                 int side = Random.Range(-1, 2);
-                if (randPowerUp < 0.4f) //powerup
+                if (randPowerUp < 1.0f) //powerup
                 {
                     float rObj = Random.Range(0.0f, 10.0f);
                     int po = 0;
@@ -267,7 +277,7 @@ public class generation : MonoBehaviour
     }
     public void SlowUp()
     {
-        tscale += 0.2f;
+        tscale += 5;
     }
 
     public void ParaSon()
