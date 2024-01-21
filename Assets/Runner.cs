@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Obsolete]
 public class Runner : MonoBehaviour
 {
-    const float speed = 40.0f, PLATFORME_WIDTH = 3.5f;
+    const float speed = 10.0f, PLATFORME_WIDTH = 3.5f;
     bool move = false;
     int dir = 0;
 
