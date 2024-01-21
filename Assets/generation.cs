@@ -267,7 +267,7 @@ public class generation : MonoBehaviour
     }
     public void SlowUp()
     {
-        tscale += 2;
+        tscale += 0.2f;
     }
 
     public void ParaSon()
