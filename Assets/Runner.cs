@@ -47,8 +47,9 @@ public class Runner : MonoBehaviour
             if (!Autogolded)
             {
                 Instantiate(piece, transform.position + new Vector3(-1.5f, 0, 0), piece.transform.rotation, gen_parent);
-                jScript.gold++;
             }
+            else
+                jScript.gold++;
             timer = Random.Range(3.5f, 7.5f);
         }
 
