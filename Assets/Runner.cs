@@ -29,6 +29,14 @@ public class Runner : MonoBehaviour
     }
     
     bool L = false, R = false;
+    bool Autogolded = false;
+
+    public IEnumerator AutoGold()
+    {
+        Autogolded = true;
+        yield return new WaitForSeconds(4.0f);
+        Autogolded = false;
+    }
 
     void Update()
     {
@@ -36,7 +44,11 @@ public class Runner : MonoBehaviour
             timer -= Time.deltaTime;
         else
         {
-            Instantiate(piece, transform.position + new Vector3(-1.5f, 0, 0), piece.transform.rotation, gen_parent);
+            if (!Autogolded)
+            {
+                Instantiate(piece, transform.position + new Vector3(-1.5f, 0, 0), piece.transform.rotation, gen_parent);
+                jScript.gold++;
+            }
             timer = Random.Range(3.5f, 7.5f);
         }
 

@@ -10,19 +10,58 @@ public class joueur : MonoBehaviour
     public int gold = 0, lifes = 0;
     bool invincible = false;
     Rigidbody rb;
+    int cost = 2;
 
     Transform cam;
     public GameObject pauseScreen;
 
-    generation genScript;
+    generation genScript; Runner rScript;
     Animator jAnim;
+
+    float RoueTimer = 0;
+    public void ArgentRoue()
+    {
+        if (RoueTimer <= 0)
+        {
+            if (gold >= cost)
+            {
+                int rand = Random.Range(0, 3);
+
+                if (rand == 0)
+                    genScript.SlowDown();
+                else if (rand == 1)
+                    genScript.SlowUp();
+                else if (rand == 2)
+                {
+                    if (lifes > 0)
+                        lifes--;
+                }
+                else
+                    rScript.AutoGold();
+
+                gold -= cost;
+                cost *= 2; //cout
+
+                Debug.Log("You got id:" + rand + " !");
+            }
+            RoueTimer = 4.0f; // COOLDOWN
+        }
+    }
+
+    public void LifesAdd()
+    {
+        if (lifes > 0)
+            lifes--;
+    }
 
     void Start()
     {
+
         Time.timeScale = 1;
 
         rb = GetComponent<Rigidbody>();
         genScript = GameObject.Find("gen_parent").GetComponent<generation>();
+        rScript = GameObject.Find("pasGentil").GetComponent<Runner>();
         cam = GameObject.Find("Camera").transform;
         jAnim = transform.GetChild(0).GetComponent<Animator>();
     }
@@ -30,12 +69,16 @@ public class joueur : MonoBehaviour
     {
         if (transform.position.y < 1.5f)
         {
-            rb.velocity += new Vector3(0, 2.0f, 0);
+            rb.velocity += new Vector3(0, 1.0f, 0);
             jAnim.SetInteger("ja", 1);
         }
     }
     void Update()
     {
+        if (RoueTimer > 0)
+            RoueTimer -= Time.deltaTime;
+
+
         if (transform.position.y < 1.5f && transform.localScale.y == 1)
             jAnim.SetInteger("ja", 0);
 
@@ -59,7 +102,7 @@ public class joueur : MonoBehaviour
                 }
             }
 
-            float posX = cam.transform.position.z - 0.25f * PLATFORM_WIDTH * ((x - Screen.width / 2) / (Screen.width / 2)); //convertir la position du click à l'écran en un position z en jeu
+            float posX = cam.transform.position.z - 0.4f * PLATFORM_WIDTH * ((x - Screen.width / 2) / (Screen.width / 2)); //convertir la position du click à l'écran en un position z en jeu
 
             if (Mathf.Abs(transform.position.z - posX) < 0.1f)
             { //ce que je veux faire marche po :(
